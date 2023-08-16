@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { prisma } from "@/db";
 
-export default function Home() {
+export default async function Home() {
+  const todos = await prisma.todo.findMany();
+    console.log(todos);
   return (
     <>
       <header className="flex justify-between items-center mb-4">
@@ -12,6 +15,9 @@ export default function Home() {
           New
         </Link>
       </header>
+      {todos.map((d) => (
+        <h2 key={d.id}>{d?.title}</h2>
+      ))}
     </>
   );
 }
